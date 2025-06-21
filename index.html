@@ -1,62 +1,93 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Will You Go Out With Me?</title>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-</head>
-<body class="flex flex-col items-center justify-center min-h-screen bg-gray-100">
-    <h1 class="text-4xl font-bold text-gray-800 mb-6">Will you go out with me?</h1>
+  </head>
+  <body
+    class="flex flex-col items-center justify-center min-h-screen bg-gray-100"
+  >
+    <h1 class="text-4xl font-bold text-gray-800 mb-6">
+      Will you go out with me?
+    </h1>
     <div class="flex gap-4">
-        <button id="yesBtn" onclick="sayYes()" class="px-6 py-3 text-lg text-white bg-green-500 rounded-md hover:bg-green-600 transition">Yes</button>
-        <button id="noBtn" onclick="moveButton()" class="px-6 py-3 text-lg text-white bg-red-500 rounded-md hover:bg-red-600 transition-all duration-300 fixed">No</button>
+      <button
+        id="yesBtn"
+        onclick="sayYes()"
+        class="px-6 py-3 text-lg text-white bg-green-500 rounded-md hover:bg-green-600 transition"
+      >
+        Yes
+      </button>
+      <button
+        id="noBtn"
+        onclick="moveButton()"
+        class="px-6 py-3 text-lg text-white bg-red-500 rounded-md hover:bg-red-600 transition-all duration-300 fixed"
+      >
+        No
+      </button>
     </div>
 
     <!-- Image Modal -->
-    <div id="imageModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50">
-        <div class="bg-white p-6 rounded-lg max-w-md mx-4 text-center">
-            <h2 class="text-2xl font-bold text-gray-800 mb-4">Yay! 🎉</h2>
-            <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExbGl0ZHp3eXBkZmVkYzdpZGNuOWZqOGhkNHNlc3R5MHc4YnQ3ZHRlZyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/l0MYt5jPR6QX5pnqM/giphy.gif" 
-                 alt="Celebration" 
-                 class="w-full h-64 object-cover rounded-lg mb-4">
-            <p class="text-lg text-gray-700 mb-4">I'm so happy you said yes! 😊💕</p>
-            <button onclick="closeModal()" class="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600 transition">Close</button>
-        </div>
+    <div
+      id="imageModal"
+      class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50"
+    >
+      <div class="bg-white p-6 rounded-lg max-w-md mx-4 text-center">
+        <h2 class="text-2xl font-bold text-gray-800 mb-4">Yay! 🎉</h2>
+        <img
+          //src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExbGl0ZHp3eXBkZmVkYzdpZGNuOWZqOGhkNHNlc3R5MHc4YnQ3ZHRlZyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/l0MYt5jPR6QX5pnqM/giphy.gif"
+          src="/image.jpg"
+          alt="Celebration"
+          class="w-full h-64 object-cover rounded-lg mb-4"
+        />
+        <p class="text-lg text-gray-700 mb-4">
+          I'm so happy you said yes! 😊💕
+        </p>
+        <button
+          onclick="closeModal()"
+          class="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600 transition"
+        >
+          Close
+        </button>
+      </div>
     </div>
 
     <script>
-        function sayYes() {
-            // Show the image modal instead of alert
-            document.getElementById('imageModal').classList.remove('hidden');
-        }
+      function sayYes() {
+        // Show the image modal instead of alert
+        document.getElementById("imageModal").classList.remove("hidden");
+      }
 
-        function closeModal() {
-            document.getElementById('imageModal').classList.add('hidden');
-        }
+      function closeModal() {
+        document.getElementById("imageModal").classList.add("hidden");
+      }
 
-        function moveButton() {
-            const noBtn = document.getElementById('noBtn');
-            
-            // Get viewport dimensions
-            const maxX = window.innerWidth - noBtn.offsetWidth;
-            const maxY = window.innerHeight - noBtn.offsetHeight;
-            
-            // Generate random positions
-            const randomX = Math.floor(Math.random() * maxX);
-            const randomY = Math.floor(Math.random() * maxY);
-            
-            // Move the button to random position
-            noBtn.style.left = randomX + 'px';
-            noBtn.style.top = randomY + 'px';
-        }
+      function moveButton() {
+        const noBtn = document.getElementById("noBtn");
 
-        // Close modal when clicking outside the content
-        document.getElementById('imageModal').addEventListener('click', function(e) {
-            if (e.target === this) {
-                closeModal();
-            }
+        // Get viewport dimensions
+        const maxX = window.innerWidth - noBtn.offsetWidth;
+        const maxY = window.innerHeight - noBtn.offsetHeight;
+
+        // Generate random positions
+        const randomX = Math.floor(Math.random() * maxX);
+        const randomY = Math.floor(Math.random() * maxY);
+
+        // Move the button to random position
+        noBtn.style.left = randomX + "px";
+        noBtn.style.top = randomY + "px";
+      }
+
+      // Close modal when clicking outside the content
+      document
+        .getElementById("imageModal")
+        .addEventListener("click", function (e) {
+          if (e.target === this) {
+            closeModal();
+          }
         });
     </script>
-</body>
+  </body>
 </html>
