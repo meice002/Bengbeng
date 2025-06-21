@@ -4,47 +4,53 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Will You Go Out With Me?</title>
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
   </head>
   <body
-    class="flex flex-col items-center justify-center min-h-screen bg-gray-100"
+    class="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-pink-100 to-purple-100 p-4"
   >
-    <h1 class="text-4xl font-bold text-gray-800 mb-6">
-      Will you go out with me?
-    </h1>
-    <div class="flex gap-4">
+    <div class="text-center mb-8">
+      <h1 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4">
+        Will you go out with me?
+      </h1>
+      <div class="text-6xl mb-4">💕</div>
+    </div>
+    
+    <div class="flex gap-4 relative w-full max-w-md justify-center">
       <button
         id="yesBtn"
         onclick="sayYes()"
-        class="px-6 py-3 text-lg text-white bg-green-500 rounded-md hover:bg-green-600 transition"
+        class="px-8 py-4 text-lg text-white bg-green-500 rounded-lg hover:bg-green-600 transition-all duration-200 shadow-lg transform hover:scale-105 active:scale-95"
       >
-        Yes
+        Yes! 💖
       </button>
       <button
         id="noBtn"
-        onmouseover="moveButton()"
-        class="px-6 py-3 text-lg text-white bg-red-500 rounded-md hover:bg-red-600 transition-all duration-300 relative"
+        ontouchstart="moveButton(event)"
+        onmouseenter="moveButton(event)"
+        class="px-8 py-4 text-lg text-white bg-red-500 rounded-lg transition-all duration-150 shadow-lg"
+        style="position: relative;"
       >
         No
       </button>
     </div>
 
-    <!-- Image Modal -->
+    <!-- Success Modal -->
     <div
       id="imageModal"
-      class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50"
+      class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50 p-4"
     >
-      <div class="bg-white p-6 rounded-lg max-w-md mx-4 text-center">
-        <h2 class="text-2xl font-bold text-gray-800 mb-4">Yay! 🎉</h2>
-        <div class="w-64 h-64 bg-gradient-to-r from-pink-300 to-purple-300 rounded-lg mb-4 flex items-center justify-center overflow-hidden">
-          <img src="./image.jpg" alt="Happy Image" class="w-full h-full object-cover" />
+      <div class="bg-white p-6 rounded-xl max-w-sm w-full mx-4 text-center shadow-2xl">
+        <h2 class="text-3xl font-bold text-gray-800 mb-4">Yay! 🎉</h2>
+        <div class="w-full h-48 bg-gradient-to-r from-pink-300 to-purple-300 rounded-lg mb-4 flex items-center justify-center">
+          <div class="text-6xl">😍</div>
         </div>
-        <p class="text-lg text-gray-700 mb-4">
+        <p class="text-lg text-gray-700 mb-6">
           I'm so happy you said yes! 😊💕
         </p>
         <button
           onclick="closeModal()"
-          class="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600 transition"
+          class="px-6 py-3 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-all duration-200 shadow-lg transform hover:scale-105 active:scale-95 w-full"
         >
           Close
         </button>
@@ -52,6 +58,8 @@
     </div>
 
     <script>
+      let buttonMoved = false;
+
       function sayYes() {
         document.getElementById("imageModal").classList.remove("hidden");
       }
@@ -60,29 +68,59 @@
         document.getElementById("imageModal").classList.add("hidden");
       }
 
-      function moveButton() {
-        const noBtn = document.getElementById("noBtn");
-
-        // Define a smaller area around the center for the button to move
-        const centerX = window.innerWidth / 2;
-        const centerY = window.innerHeight / 2;
-        const areaWidth = 400; // Movement area width
-        const areaHeight = 300; // Movement area height
+      function moveButton(event) {
+        event.preventDefault(); // Prevent default touch behavior
         
-        // Calculate boundaries
-        const minX = centerX - areaWidth / 2;
-        const maxX = centerX + areaWidth / 2 - noBtn.offsetWidth;
-        const minY = centerY - areaHeight / 2;
-        const maxY = centerY + areaHeight / 2 - noBtn.offsetHeight;
-
-        // Generate random positions within the constrained area
-        const randomX = Math.floor(Math.random() * (maxX - minX)) + minX;
-        const randomY = Math.floor(Math.random() * (maxY - minY)) + minY;
-
-        // Move the button to random position
-        noBtn.style.position = 'fixed';
-        noBtn.style.left = randomX + "px";
-        noBtn.style.top = randomY + "px";
+        const noBtn = document.getElementById("noBtn");
+        
+        // Only move the button a limited number of times to avoid frustration
+        if (buttonMoved) return;
+        
+        // Move immediately without delay
+        requestAnimationFrame(() => {
+          // Get viewport dimensions
+          const viewportWidth = window.innerWidth;
+          const viewportHeight = window.innerHeight;
+          
+          // Get button dimensions
+          const btnRect = noBtn.getBoundingClientRect();
+          const btnWidth = btnRect.width;
+          const btnHeight = btnRect.height;
+          
+          // Define safe boundaries (with padding from edges)
+          const padding = 20;
+          const minX = padding;
+          const maxX = viewportWidth - btnWidth - padding;
+          const minY = padding + 100; // Extra padding from top
+          const maxY = viewportHeight - btnHeight - padding - 100; // Extra padding from bottom
+          
+          // Generate random position within safe boundaries
+          const randomX = Math.floor(Math.random() * (maxX - minX)) + minX;
+          const randomY = Math.floor(Math.random() * (maxY - minY)) + minY;
+          
+          // Apply the new position instantly
+          noBtn.style.transition = 'none'; // Disable transition for instant movement
+          noBtn.style.position = 'fixed';
+          noBtn.style.left = randomX + "px";
+          noBtn.style.top = randomY + "px";
+          noBtn.style.zIndex = '10';
+          
+          // Re-enable transition after movement
+          setTimeout(() => {
+            noBtn.style.transition = 'all 0.15s ease-out';
+          }, 10);
+          
+          // Change button text to be more playful
+          const playfulTexts = ["Nope! 😏", "Try again! 😜", "Not today! 🙃", "Maybe? 🤔"];
+          noBtn.textContent = playfulTexts[Math.floor(Math.random() * playfulTexts.length)];
+        });
+        
+        buttonMoved = true;
+        
+        // Reset after a few seconds
+        setTimeout(() => {
+          buttonMoved = false;
+        }, 1500);
       }
 
       // Close modal when clicking outside the content
@@ -93,6 +131,17 @@
             closeModal();
           }
         });
+
+      // Handle orientation changes
+      window.addEventListener('orientationchange', function() {
+        // Reset button position on orientation change
+        const noBtn = document.getElementById("noBtn");
+        noBtn.style.position = 'relative';
+        noBtn.style.left = 'auto';
+        noBtn.style.top = 'auto';
+        noBtn.textContent = 'No';
+        buttonMoved = false;
+      });
     </script>
   </body>
 </html>
